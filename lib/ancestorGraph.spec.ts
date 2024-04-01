@@ -1,28 +1,39 @@
 import { AncestorGraph } from "./ancestorGraph";
 
-const parentChildPairs1 = [
-  [1, 3],
-  [2, 3],
-  [3, 6],
-  [5, 6],
-  [5, 7],
-  [4, 5],
-  [4, 8],
-  [4, 9],
-  [9, 11],
-  [14, 4],
-  [13, 12],
-  [12, 9],
-];
+describe(AncestorGraph.name, () => {
+  describe("getPersonById", () => {
+    it("should return the person with the given id if it exists in the graph", () => {
+      const graph = new AncestorGraph([[1, 2]]);
+      expect(graph.getPersonById(1).id).toEqual(1);
+    });
 
-test("return FALSE if two persons don't have a common ancestor", () => {
-  const accessorGraph = new AncestorGraph(parentChildPairs1);
+    it("should return undefined if the person with the given id does not exist in the graph", () => {
+      const graph = new AncestorGraph([[1, 2]]);
+      expect(graph.getPersonById(3)).toBeUndefined();
+    });
+  });
 
-  expect(accessorGraph.hasCommonAncestor(14, 13)).toEqual(false);
-});
+  describe("constructor", () => {
+    it("should correctly construct the graph from the given parent-child pairs", () => {
+      const graph = new AncestorGraph([[1, 2], [2, 3]]);
+      expect(graph.getPersonById(1).listAncestors()).toEqual([]);
+      expect(graph.getPersonById(2).listAncestors()).toEqual([graph.getPersonById(1)]);
+    });
 
-test("return TRUE if two persons have a common ancestor", () => {
-  const accessorGraph = new AncestorGraph(parentChildPairs1);
+    it("should handle multiple parents for a single child", () => {
+      const graph = new AncestorGraph([[1, 2], [3, 2]]);
+      expect(graph.getPersonById(2).listAncestors()).toEqual([graph.getPersonById(1), graph.getPersonById(3)]);
+    });
 
-  expect(accessorGraph.hasCommonAncestor(6, 8)).toEqual(true);
+    it("should handle multiple children for a single parent", () => {
+      const graph = new AncestorGraph([[1, 2], [1, 3]]);
+      expect(graph.getPersonById(2).listAncestors()).toEqual([graph.getPersonById(1)]);
+      expect(graph.getPersonById(3).listAncestors()).toEqual([graph.getPersonById(1)]);
+    });
+
+    it("should handle an empty list of parent-child pairs", () => {
+      const graph = new AncestorGraph([]);
+      expect(graph.getPersonById(1)).toBeUndefined();
+    });
+  });
 });

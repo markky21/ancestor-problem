@@ -34,7 +34,7 @@ describe(Person.name, () => {
       person1.setParent(person2);
       person1.setParent(person3);
 
-      expect(person1.listAncestors()).toEqual([person2,person4, person3]);
+      expect(person1.listAncestors()).toEqual([person2, person3, person4]);
     });
   });
 
@@ -54,5 +54,5 @@ describe(Person.name, () => {
 
       expect(person1.hasCommonAncestor(person3)).toBe(true);
     });
-  })
+  });
 });

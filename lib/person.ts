@@ -1,18 +1,17 @@
 import { IPerson } from "./IPerson";
+import { Parents } from "./parents";
 
 export class Person implements IPerson {
-  private parents: IPerson[] = [];
+  private parents: Parents = new Parents();
 
   constructor(public readonly id: number) {}
 
   listAncestors(): IPerson[] {
-    return this.parents.reduce((ancestors, parent) => {
-      return ancestors.concat(parent, parent.listAncestors());
-    }, [] as IPerson[]);
+    return [...this.parents];
   }
 
   setParent(parent: IPerson): void {
-    this.parents.push(parent);
+    this.parents.setParent(parent);
   }
 
   hasCommonAncestor(otherPerson: IPerson): boolean {

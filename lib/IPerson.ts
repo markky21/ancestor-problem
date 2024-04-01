@@ -1,7 +1,9 @@
-export interface IPerson {
-  hasCommonAncestor(person: IPerson): boolean;
+import {IWithAncestors} from "./IWithAncestors";
 
-  setParent(graphElement: IPerson): void;
+export interface IPerson extends IWithAncestors {
+  id: number;
+
+  hasCommonAncestor(person: IPerson): boolean;
 
   listAncestors(): IPerson[];
 }

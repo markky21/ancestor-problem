@@ -7,13 +7,7 @@ export class AncestorGraph {
     this.constructGraph(parentChildPairs);
   }
 
-  hasCommonAncestor(person1Id: number, person2Id: number) {
-   return this.getPersonById(person1Id).hasCommonAncestor(
-      this.getPersonById(person2Id),
-    );
-  }
-
-  private getPersonById(personId: number): IPerson {
+  public getPersonById(personId: number): IPerson {
     return this.graph[personId];
   }
 
